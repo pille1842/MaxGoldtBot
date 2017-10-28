@@ -14,13 +14,15 @@ The response comment will also contain archive.is versions of the linked bild.de
 articles, so that future readers are not forced to visit bild.de if they want
 to read the article.
 
-This program is licensed under the MIT license, see the LICENSE file.
+This program is licensed under the MIT license, see the LICENSE file. To see what
+has changed over time, have a look at
+[CHANGELOG.md](https://github.com/pille1842/MaxGoldtBot/blob/master/CHANGELOG.md).
 
 ## Prerequisites
 
 To run this bot, you will need:
 
-- Python 3 (tested with 3.5.2)
+- Python 3 (tested with 3.5.2 and 3.4.2 on Ubuntu and Debian)
 - The following packages (install via `pip` / `pip3`):
     - `archiveis` (a simple wrapper for archive.is)
     - `praw` (the Python Reddit wrapper)
@@ -54,6 +56,26 @@ a loglevel of WARNING or above. Use `--loglevel` to change the minimum loglevel
 
 If you wish to log messages into a file instead of standard output, you can pass
 a filename to the `--logfile` option.
+
+### Configuration
+
+The sample configuration file (`MaxGoldtBot.ini.sample`) should give you a good
+idea of what you need to configure to make this bot work. The configuration file
+should contain the following items in a section called `[MaxGoldtBot]`:
+
+- **`client_id`** -- this is the ID of your Reddit application. To obtain one,
+  go to reddit.com > preferences > apps and create a new app of type "script".
+  The client ID is displayed beneath your application's name.
+- **`client_secret`** -- this is the secret key of your Reddit application.
+  Never let anyone see this! You can find it in the details of your app under
+  reddit.com > preferences > apps.
+- **`user_agent`** -- this is a User-Agent string that the bot will provide to
+  Reddit when making requests. The default sample is a good idea. Generally, the
+  User-Agent string should have the following format:
+  `platform:tld.yourhostname.yourapp:vX.Y.Z (by /u/YourUsername)`
+- **`username`** -- this is the username of your Reddit bot.
+- **`password`** -- this is your Reddit bot's password. Without it, the bot can
+  read Reddit comments, but cannot reply to them.
 
 ## Subreddit
 
