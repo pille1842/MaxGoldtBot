@@ -12,6 +12,7 @@ import argparse
 import configparser
 import logging
 import praw
+import prawcore.exceptions
 import re
 import sys
 import time
@@ -132,8 +133,10 @@ while True:
                         file.write(comment.id + '\n')
                 except IOError as e:
                     logging.error('IO error while writing to %s: %s', processed_comments_file, e)
-    except (praw.exceptions.APIException, praw.exceptions.ClientException) as e:
-        logging.warning('Uh-oh, got an exception. Will go to sleep for 15 minutes')
+    except (praw.exceptions.APIException,
+            praw.exceptions.ClientException,
+            prawcore.exceptions.RequestException) as e:
+        logging.warning('Got an exception. Will go to sleep for 15 minutes')
         if hasattr(e, 'message'):
             logging.warning('Exception was: %s', e.message)
         time.sleep(15 * 60)
