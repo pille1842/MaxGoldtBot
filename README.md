@@ -30,8 +30,8 @@ To run this bot, you will need:
 ## Setup
 
 Rename the `MaxGoldtBot.ini.sample` file to `MaxGoldtBot.ini`. In this file,
-store the configuration values for your bot (you can obtain the client ID and
-secret via reddit.com > Preferences > Applications).
+store the configuration values for your bot. See section [Configuration](#configuration)
+for more information.
 
 ## Running the Bot
 
@@ -72,12 +72,12 @@ should contain the following items in a section called `[MaxGoldtBot]`:
 - **`user_agent`** -- this is a User-Agent string that the bot will provide to
   Reddit when making requests. The default sample is a good idea. Generally, the
   User-Agent string should have the following format:
-  `platform:tld.yourhostname.yourapp:vX.Y.Z (by /u/YourUsername)`
+  `platform:tld.yourdomain.yourapp:vX.Y.Z (by /u/YourUsername)`
 - **`username`** -- this is the username of your Reddit bot.
 - **`password`** -- this is your Reddit bot's password. Without it, the bot can
   read Reddit comments, but cannot reply to them.
 
 ## Subreddit
 
-This bot has its own subreddit where you can ask questions and make requests:
+This bot has its own subreddit where you can ask questions and make suggestions:
 [/r/MaxGoldtBot](https://www.reddit.com/r/MaxGoldtBot)
