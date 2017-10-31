@@ -68,6 +68,8 @@ parser.add_argument('--logfile', action='store', dest='logfile',
                     help='a logfile to write to (default: stdout)')
 parser.add_argument('--loglevel', action='store', dest='loglevel', default='WARNING',
                     help='a loglevel (default: WARNING)')
+parser.add_argument('--procfile', action='store', dest='procfile',
+                    help='a file to stored processed comment IDs in')
 parser.add_argument('subreddit', action='store',
                     help='subreddit to process comments from')
 
@@ -105,8 +107,12 @@ reddit = praw.Reddit(client_id=config['MaxGoldtBot']['client_id'],
 processed_comments = []
 # Processed comments are read from a file per subreddit. This way, multiple
 # instances of the bot can run for multiple subreddits without getting in
-# each other's way.
-processed_comments_file = 'processed_comments_%s.txt' % arguments.subreddit
+# each other's way. With argument --procfile, the user can determine the
+# path of the file himself.
+if arguments.procfile:
+    processed_comments_file = arguments.procfile
+else:
+    processed_comments_file = 'processed_comments_%s.txt' % arguments.subreddit
 logging.debug('Storing processed comments in %s', processed_comments_file)
 try:
     with open(processed_comments_file) as file:
