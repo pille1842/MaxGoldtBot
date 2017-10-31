@@ -41,14 +41,52 @@ To run the bot, simply call it with the name of a subreddit as an argument:
 $ ./MaxGoldtBot.py MySubreddit
 ```
 
-### Options
+### Running the bot as a systemd service
 
-#### Configuration file
+If you wish to run this bot as a systemd user service, create the following
+unit file in `~/.config/systemd/user/MaxGoldtBot@.service`:
 
-By default, the bot reads its configuration from `MaxGoldtBot.ini`. However,
-you can pass any configuration file name you like to the `--config` option.
+```systemd
+[Unit]
+Description=Max Goldt Bot
 
-#### Logging
+[Service]
+ExecStart=/path/to/MaxGoldtBot.py --config=/path/to/config.ini --procfile=/path/to/procfile_%I.txt --logfile=/path/to/logfile_%I.log %I
+Restart=always
+
+[Install]
+WantedBy=default.target
+```
+
+If you wish to run this service on boot (e.g. not only when you are logged in),
+you need to enable lingering (see [loginctl man page](https://www.freedesktop.org/software/systemd/man/loginctl.html)):
+
+```
+# loginctl enable-linger YOURUSERNAME
+```
+
+After that, you can enable the bot service for any subreddit with the following
+command:
+
+```
+$ systemctl --user enable MaxGoldtBot@SUBREDDIT.service
+```
+
+To start the bot immediately, run:
+
+```
+$ systemctl --user start MaxGoldtBot@SUBREDDIT.service
+```
+
+## Command-line options
+
+### Configuration file
+
+By default, the bot reads its configuration from `MaxGoldtBot.ini` in the
+current directory. However, you can pass any configuration file name you like to
+the `--config` option.
+
+### Logging
 
 By default, the bot will log to standard output and only display messages with
 a loglevel of WARNING or above. Use `--loglevel` to change the minimum loglevel
@@ -57,7 +95,21 @@ a loglevel of WARNING or above. Use `--loglevel` to change the minimum loglevel
 If you wish to log messages into a file instead of standard output, you can pass
 a filename to the `--logfile` option.
 
-### Configuration
+### Processed comments
+
+The bot keeps a list of already processed comments to avert responding to any
+comments twice. By default, this list is stored in a file called
+`processed_comments_SUBREDDIT.txt` in the current directory. You can override
+the path to this file with the `--procfile` option.
+
+### Sleep time
+
+When the bot gets an API exception from Reddit (e.g. because the bot is trying
+too hard or because there are connectivity issues), it will go to sleep for
+a while. By default, this sleep time is 15 minutes. However, you can override
+this time with `--sleeptime SECONDS`.
+
+## Configuration
 
 The sample configuration file (`MaxGoldtBot.ini.sample`) should give you a good
 idea of what you need to configure to make this bot work. The configuration file
