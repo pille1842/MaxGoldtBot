@@ -3,7 +3,7 @@
 # with a quote from writer Max Goldt and an archive.is version of the linked
 # bild.de article(s)
 #
-# Version:      0.1.0
+# Version:      0.2.0
 # Author:       Eric Haberstroh <eric@erixpage.de>
 # License:      MIT <https://opensource.org/licenses/MIT>
 
