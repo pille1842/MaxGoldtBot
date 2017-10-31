@@ -160,3 +160,6 @@ while True:
         logging.warning('Got an exception: %s', e)
         logging.warning('Will go to sleep for %d seconds', arguments.sleeptime)
         time.sleep(arguments.sleeptime)
+    except KeyboardInterrupt:
+        logging.critical('Bot has been killed by keyboard interrupt. Exiting')
+        sys.exit(0)
