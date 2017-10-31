@@ -141,6 +141,19 @@ while True:
                         file.write(comment.id + '\n')
                 except IOError as e:
                     logging.error('IO error while writing to %s: %s', processed_comments_file, e)
+                # Prune the processed comments file -- we don't need to store
+                # more than 500 comments in there. Allow up to 600 comment IDs
+                # to be stored, then cut the file down.
+                if len(processed_comments) > 600:
+                    logging.info('Pruning %s to 500 comments', processed_comments_file)
+                    try:
+                        with open(processed_comments_file, 'w') as file:
+                            for comment in processed_comments[-500:]:
+                                file.write(comment + '\n')
+                        # Prune the list in memory, too
+                        processed_comments = processed_comments[-500:]
+                    except IOError as e:
+                        logging.error('IO error while writing to %s: %s', processed_comments_file, e)
     except (praw.exceptions.APIException,
             praw.exceptions.ClientException,
             prawcore.exceptions.RequestException) as e:
