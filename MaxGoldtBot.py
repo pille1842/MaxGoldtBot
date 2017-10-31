@@ -70,6 +70,8 @@ parser.add_argument('--loglevel', action='store', dest='loglevel', default='WARN
                     help='a loglevel (default: WARNING)')
 parser.add_argument('--procfile', action='store', dest='procfile',
                     help='a file to stored processed comment IDs in')
+parser.add_argument('--sleeptime', action='store', dest='sleeptime', default=15 * 60, type=int,
+                    help='number of seconds to sleep in case of an API exception')
 parser.add_argument('subreddit', action='store',
                     help='subreddit to process comments from')
 
@@ -142,7 +144,6 @@ while True:
     except (praw.exceptions.APIException,
             praw.exceptions.ClientException,
             prawcore.exceptions.RequestException) as e:
-        logging.warning('Got an exception. Will go to sleep for 15 minutes')
-        if hasattr(e, 'message'):
-            logging.warning('Exception was: %s', e.message)
-        time.sleep(15 * 60)
+        logging.warning('Got an exception: %s', e)
+        logging.warning('Will go to sleep for %d seconds', arguments.sleeptime)
+        time.sleep(arguments.sleeptime)
