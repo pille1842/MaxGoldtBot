@@ -1,8 +1,8 @@
 # MaxGoldtBot
 
-This is a Reddit bot. It reads all comments from a subreddit and checks if they
-contain any links to bild.de. If so, the bot responds with the following quote
-from German writer Max Goldt:
+This is a Reddit bot. It reads all submissions and comments from a subreddit and
+checks if they contain any links to bild.de. If so, the bot responds with the
+following quote from German writer Max Goldt:
 
 > Diese Zeitung ist ein Organ der Niedertracht. Es ist falsch, sie zu lesen.
 > Jemand, der zu dieser Zeitung beiträgt, ist gesellschaftlich absolut
@@ -51,7 +51,7 @@ unit file in `~/.config/systemd/user/MaxGoldtBot@.service`:
 Description=Max Goldt Bot
 
 [Service]
-ExecStart=/path/to/MaxGoldtBot.py --config=/path/to/config.ini --procfile=/path/to/procfile_%I.txt --logfile=/path/to/logfile_%I.log %I
+ExecStart=/path/to/MaxGoldtBot.py --config=/path/to/config.ini --procfile=/path/to/procfile_%I.txt --prosfile=/path/to/prosfile_%I.txt --logfile=/path/to/logfile_%I.log %I
 Restart=always
 
 [Install]
@@ -101,6 +101,13 @@ The bot keeps a list of already processed comments to avert responding to any
 comments twice. By default, this list is stored in a file called
 `processed_comments_SUBREDDIT.txt` in the current directory. You can override
 the path to this file with the `--procfile` option.
+
+### Processed submissions
+
+The bot also keeps a list of already processed submissions to avert responding
+to any submissions twice. By default, this list is stored in a file called
+`processed_submissions_SUBREDDIT.txt` in the current directory. You can override
+the path to this file with the `--prosfile` option.
 
 ### Sleep time
 

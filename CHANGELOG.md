@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2018-03-29
+### Added
+- The bot now also handles submissions.
+- Added an option `--prosfile` to control where the bot stores the IDs of
+  processed submissions. The default is `processed_submissions_SUBREDDIT.txt` in
+  the bot's working directory. The submissions file will be kept to a maximum
+  of 500 processed submissions.
+
 ## [0.2.0] - 2017-10-31
 ### Added
 - Added an option `--procfile` to control where the bot stores the IDs of
