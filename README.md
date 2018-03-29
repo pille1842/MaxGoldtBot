@@ -43,19 +43,12 @@ $ ./MaxGoldtBot.py MySubreddit
 
 ### Running the bot as a systemd service
 
-If you wish to run this bot as a systemd user service, create the following
-unit file in `~/.config/systemd/user/MaxGoldtBot@.service`:
+If you wish to run this bot as a systemd user service, modify
+`MaxGoldtBot@.service` and fill in the relevant paths. Then copy the file to
+`~/.config/systemd/user/`:
 
-```systemd
-[Unit]
-Description=Max Goldt Bot
-
-[Service]
-ExecStart=/path/to/MaxGoldtBot.py --config=/path/to/config.ini --procfile=/path/to/procfile_%I.txt --prosfile=/path/to/prosfile_%I.txt --logfile=/path/to/logfile_%I.log %I
-Restart=always
-
-[Install]
-WantedBy=default.target
+```
+$ mkdir -pv ~/.config/systemd/user && cp MaxGoldtBot@.service ~/.config/systemd/user/
 ```
 
 If you wish to run this service on boot (e.g. not only when you are logged in),
