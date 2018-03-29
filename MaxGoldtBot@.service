@@ -1,0 +1,9 @@
+[Unit]
+Description=Max Goldt Bot
+
+[Service]
+ExecStart=/path/to/MaxGoldtBot.py --config=/path/to/config.ini --procfile=/path/to/procfile_%I.txt --prosfile=/path/to/prosfile_%I.txt --logfile=/path/to/logfile_%I.log %I
+Restart=always
+
+[Install]
+WantedBy=default.target
