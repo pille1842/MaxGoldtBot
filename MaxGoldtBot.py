@@ -8,15 +8,16 @@
 # License:      MIT <https://opensource.org/licenses/MIT>
 
 import archiveis
+from urllib.parse import urlparse
 import argparse
 import configparser
 import logging
+import os
 import praw
 import prawcore.exceptions
 import re
 import sys
 import time
-import os
 
 class MaxGoldtBotCommentParser:
     processed_comments = []
@@ -90,7 +91,13 @@ class MaxGoldtBotCommentParser:
         if urls:
             logging.info('[comments] New comment %s with bild.de URLs found', comment.id)
             archive_urls = []
+            bildplus = 0
             for url in urls:
+                parsed_url = urlparse(url)
+                if parsed_url.path.startswith('/bild-plus/'):
+                    logging.info('[comments] Skipping %s because it is probably a BILD+ link', url)
+                    bildplus += 1
+                    continue
                 logging.info('[comments] Capturing %s', url)
                 archive_url = archiveis.capture(url)
                 if archive_url:
@@ -98,7 +105,7 @@ class MaxGoldtBotCommentParser:
                     logging.info('[comments] Captured: %s', archive_url)
                 else:
                     logging.warning('[comments] Got an empty archive.is URL back. Something is wrong')
-            if len(urls) != len(archive_urls):
+            if len(urls) != len(archive_urls) + bildplus:
                 logging.warning('[comments] Found %d bild.de URLs, but got only %d archive.is links', len(urls), len(archive_urls))
             if archive_urls:
                 links = "\n- ".join(archive_urls)
@@ -199,7 +206,13 @@ class MaxGoldtBotSubmissionParser:
         if urls:
             logging.info('[submissions] New submission %s with bild.de URLs found', submission.id)
             archive_urls = []
+            bildplus = 0
             for url in urls:
+                parsed_url = urlparse(url)
+                if parsed_url.path.startswith('/bild-plus/'):
+                    logging.info('[submissions] Skipping %s because it is probably a BILD+ link', url)
+                    bildplus += 1
+                    continue
                 logging.info('[submissions] Capturing %s', url)
                 archive_url = archiveis.capture(url)
                 if archive_url:
@@ -207,7 +220,7 @@ class MaxGoldtBotSubmissionParser:
                     logging.info('[submissions] Captured: %s', archive_url)
                 else:
                     logging.warning('[submissions] Got an empty archive.is URL back. Something is wrong')
-            if len(urls) != len(archive_urls):
+            if len(urls) != len(archive_urls) + bildplus:
                 logging.warning('[submissions] Found %d bild.de URLs, but got only %d archive.is links', len(urls), len(archive_urls))
             if archive_urls:
                 links = "\n- ".join(archive_urls)
