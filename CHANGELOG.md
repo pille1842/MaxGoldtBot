@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2018-09-19
+### Changed
+- The bot will no longer respond to Bild Plus links. A Bild Plus link is any URL
+  where the path starts with `/bild-plus/`.
+- The bot will no longer respond to Internet Archive links. These links usually
+  contain a full and valid Bild URL, but they are preceded by
+  `https://web.archive.org/.../`. The bot will ignore all Bild links if they
+  are found immediately following a slash (/).
+
 ## [0.3.0] - 2018-03-29
 ### Added
 - The bot now also handles submissions.
