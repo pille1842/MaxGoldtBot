@@ -3,7 +3,7 @@
 # with a quote from writer Max Goldt and an archive.is version of the linked
 # bild.de article(s)
 #
-# Version:      0.2.0
+# Version:      0.4.0
 # Author:       Eric Haberstroh <eric@erixpage.de>
 # License:      MIT <https://opensource.org/licenses/MIT>
 
@@ -25,6 +25,7 @@ class MaxGoldtBotCommentParser:
     reddit = None
     subreddit = ""
     sleeptime = 0
+    regex = '(?<!/)(http[s]?://(?:www|m).bild.de/(?:[-a-zA-Z0-9/_\.\?=,])+)'
 
     def __init__(self, arguments):
         self.config = configparser.ConfigParser()
@@ -85,8 +86,7 @@ class MaxGoldtBotCommentParser:
 
     def handle_comment(self, comment):
         logging.debug('[comments] Processing new comment %s', comment.id)
-        urls = re.findall('(http[s]?://(?:www|m).bild.de/(?:[-a-zA-Z0-9/_\.])+)',
-                          comment.body)
+        urls = re.findall(self.regex, comment.body)
         if urls:
             logging.info('[comments] New comment %s with bild.de URLs found', comment.id)
             archive_urls = []
@@ -131,6 +131,7 @@ class MaxGoldtBotSubmissionParser:
     reddit = None
     subreddit = ""
     sleeptime = 0
+    regex = '(?<!/)(http[s]?://(?:www|m).bild.de/(?:[-a-zA-Z0-9/_\.\?=,])+)'
 
     def __init__(self, arguments):
         self.config = configparser.ConfigParser()
@@ -192,11 +193,9 @@ class MaxGoldtBotSubmissionParser:
     def handle_submission(self, submission):
         logging.debug('[submissions] Processing new submission %s', submission.id)
         if submission.selftext == '':
-            urls = re.findall('(http[s]?://(?:www|m).bild.de/(?:[-a-zA-Z0-9/_\.])+)',
-                              submission.url)
+            urls = re.findall(self.regex, submission.url)
         else:
-            urls = re.findall('(http[s]?://(?:www|m).bild.de/(?:[-a-zA-Z0-9/_\.])+)',
-                              submission.selftext)
+            urls = re.findall(self.regex, submission.selftext)
         if urls:
             logging.info('[submissions] New submission %s with bild.de URLs found', submission.id)
             archive_urls = []
